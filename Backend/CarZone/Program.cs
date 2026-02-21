@@ -4,7 +4,7 @@ using System;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Configura a conexão com o banco de dados
+// Configura a conexï¿½o com o banco de dados
 builder.Services.AddDbContext<CarZoneContexto>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
