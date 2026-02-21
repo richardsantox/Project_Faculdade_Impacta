@@ -1,6 +1,6 @@
 ﻿namespace CarZone.src.Models
 {
-    public class Veiculos : ModeloBase
+    public class Veiculo : ModeloBase
     {
         
         public string Modelo { get; set; }
