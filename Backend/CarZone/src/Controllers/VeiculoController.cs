@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CarZone.src.Controllers
 {
-    public class VeiculosController : Controller
+    public class VeiculoController : Controller
     {
         // GET: VeiculosController
         public ActionResult Index()
