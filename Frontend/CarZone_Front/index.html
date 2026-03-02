@@ -4,31 +4,89 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CarZone</title>
+
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
+    
     <header>
-        <nav>
-            <h1>CarZone</h1>
+        <div class="leftside">
+            <a href="index.html"><img src="assets/images/carzoneLogo.png" alt="CarZone" class="logo"></a>
+        </div>
+        <div class="middle">
             <ul>
-                <li><a href="#home">Home</a></li>
-                <li><a href="#about">Sobre</a></li>
-                <li><a href="#services">Serviços</a></li>
-                <li><a href="#contact">Contato</a></li>
+                <li><a href="">Home</a></li>
+                <li><a href="">Catálogo</a></li>
+                <li><a href="">Sobre Nós</a></li>
             </ul>
-        </nav>
+        </div>
+        <div class="rightside">
+            <Ul>
+                <li><a href="">Login</a></li>
+                <li class="menu-icon">
+                    <div></div>
+                    <div></div>
+                    <div></div>
+                </li>
+            </Ul>
+        </div>
     </header>
 
+<!-------------------------------------------------------------------------->
+
     <main>
-        <section id="home">
-            <h2>Bem-vindo à CarZone</h2>
+        <section class="top-section">
+            <div class="info">
+                <span>A MAIOR PLATAFORMA DE VEÍCULOS PREMIUM DO BRASIL</span>
+                <h1>Encontre o Carro dos Seus Sonhos</h1>
+                <p>Na CarZone você encontra os melhores modelos do mercado, com curadoria especializada, negociação segura e experiência 100% digital.</p>
+                <button class="btn-cta">Explore os Modelos</button>
+            </div>
+            <div class="buttons-area">
+                <a href="" class="btn-ligth"><img src="assets/images/down.png" alt=""></a>
+                <a href="" class="btn-ligth"><img src="assets/images/down.png" alt=""></a>
+            </div>
         </section>
+
+        <section class="filters-bar">
+            <div class="buttons-area">
+                <input class="buttons-area btn-dark" type="text" placeholder="Pesquisar Modelo">
+                <div class="buttons-area">
+                    <select class="btn-ligth"><option>Model</option></select>
+                    <select class="btn-ligth"><option>Price</option></select>
+                </div>
+            </div>
+
+            <div class="arrow-area">
+                <img class="arrow" src="assets/images/down.png" alt="">
+            </div>
+        </section>
+
+        
+        <section class="car-inventory">
+            <div class="inventory-header">
+                <h2>Nossa Frotra</h2>
+                <button class="btn-add">+ Adicionar Carro</button>
+            </div>
+            
+            <!-- TODO: Integrar com api para retornar veiculos cadastrados-->
+            <div class="car-grid">
+                <article class="car-card">
+                    <img src="carro1.jpg" alt="Modelo Corsa">
+                    <div class="card-info">
+                        <h3>Corsa Wind</h3>
+                        <p>$250,000</p>
+                    </div>
+                </article>
+                </div>
+        </section>
+
     </main>
 
-    <footer>
-        <p>&copy; 2026 CarZone. Todos os direitos reservados.</p>
-    </footer>
+<!-------------------------------------------------------------------------->
 
-    <script src="script.js"></script>
+    <footer>
+        
+    </footer>    
 </body>
 </html>
