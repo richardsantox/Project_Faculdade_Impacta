@@ -6,7 +6,7 @@ namespace CarZone.src.Repositories
     public interface IVeiculo
     {
         Task NovoVeiculoAsync(NovoVeiculoDTO veiculo);
-        Task<List<ListarVeiculosDTO>> ListarTodosVeiculosAsync();
+        Task<List<Veiculo>> ListarTodosVeiculosAsync();
         Task AtualizarVeiculoAsync(AtualizarVeiculoDTO veiculo);
         Task DeletarVeiculoAsync(int id);
 
