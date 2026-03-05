@@ -1,12 +1,14 @@
 /*VARIAVEIS*/
 :root{
-    --header-color:#000;
-    --h1-color:#393C41;
-    --h2-color:#6E7378;
-    --btn-dark-bg:rgba(23, 26, 32, 0.8);
-    --btn-ligth-bg:rgba(255, 255, 255, 0.65);
-    --btn-dark-color:#FFF;
-    --btn-ligth-color:#000;
+    --header-color:#fff;
+    --h1-color:#fff;
+    --h2-color:#FFD700;
+    --btn-dark-bg:#FFD700;
+    --btn-ligth-bg:rgba(255, 255, 255, 0.1);
+    --btn-dark-color:#000;
+    --btn-ligth-color:#fff;
+    --primary-gold:#FFD700;
+    --bg-dark:#0a0a0a;
 }
 
 
@@ -26,6 +28,7 @@ body{
     font-family: GothamMedium, Helvetica, Arial;
     font-size: 14px;
     margin: 0;
+    background-color: var(--bg-dark);
 }
 
 
@@ -39,6 +42,9 @@ header{
     top: 0;
     left: 0;
     right: 0;
+    background-color: rgba(10, 10, 10, 0.95);
+    border-bottom: 1px solid var(--primary-gold);
+    z-index: 100;
 }
 
 header ul, li{
@@ -95,22 +101,63 @@ main .top-section{
     background-image: url(../images/bg2.jpg);
     background-size: cover;
     background-position: center;
-    height: 60vh;
+    height: 80vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    margin-top: 65px;
+}
+
+main .top-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1;
 }
 
 main .info{
-    height: 45vh;
+    height: auto;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    color: white;
 }
 
 main h1{
     margin: 0;
-    font-size: 40px;
-    font-weight: normal;
+    font-size: 60px;
+    font-weight: 700;
     color: var(--h1-color);
+    margin-bottom: 1rem;
+    text-shadow: 0 4px 15px rgba(0, 0, 0, 0.8);
+}
+
+main .info span {
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--primary-gold);
+    margin-bottom: 1rem;
+    font-weight: 700;
+    display: block;
+}
+
+main .info p {
+    font-size: 16px;
+    color: #ccc;
+    max-width: 600px;
+    margin: 1rem 0;
+    line-height: 1.6;
 }
 main h2{
     margin: 0;
@@ -127,30 +174,65 @@ main h2 a{
 main .buttons-area{
     display: flex;
     justify-content: center;
+    gap: 1rem;
+    position: relative;
+    z-index: 2;
+    margin-top: 2rem;
 }
 
-
 main .buttons-area a{
-    display: block;
-    width: 220px;
-    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
     text-decoration: none;
     text-transform: uppercase;
     font-size: 12px;
+    transition: all 0.3s ease;
+}
 
-    padding: 15px;
+main .btn-cta {
+    background-color: var(--btn-dark-bg);
+    color: var(--btn-dark-color);
+    padding: 15px 40px;
+    border: none;
     border-radius: 30px;
-    margin: 0 10px;
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    z-index: 2;
+}
+
+main .btn-cta:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 20px rgba(255, 215, 0, 0.4);
 }
 
 main .btn-dark{
     background-color: var(--btn-dark-bg);
     color: var(--btn-dark-color);
-
 }
+
+main .btn-dark:hover {
+    transform: scale(1.1);
+    box-shadow: 0 6px 15px rgba(255, 215, 0, 0.4);
+}
+
 main .btn-ligth{
     background-color: var(--btn-ligth-bg);
-    color: var(--btn-ligth-color);
+    border: 2px solid white;
+    color: white;
+}
+
+main .btn-ligth:hover {
+    background-color: var(--btn-dark-bg);
+    border-color: var(--btn-dark-bg);
+    color: var(--btn-dark-color);
 }
 
 main .arrow-area{
@@ -159,23 +241,36 @@ main .arrow-area{
     margin-top: 30px;
     height: 30px;
 }
-@keyframes arrow{
-    0%{
-        margin-top:0px;
-    }
-    50%{
-        margin-top:15px
-    }
-    100%{
-        margin-top:0px;
-    }
+
+
+
+main .btn-carousel {
+    width: 50px;
+    height: 50px;
+    
+    border-radius: 50%;
+    border: 2px solid white;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
-main .arrow{
-    height: 15px;
-    animation-name: arrow;
-    animation-duration: 2s;
-    animation-iteration-count: infinite;
+
+.car-inventory {
+    background:
+      linear-gradient(to bottom, rgba(39,39,39,0) 0%, rgba(39,39,39,1) 50%, rgba(39,39,39,0) 100%);
 }
+
+.car-inventory .car-grid {
+    color: white;
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
 
 
 /* FOOTER */
