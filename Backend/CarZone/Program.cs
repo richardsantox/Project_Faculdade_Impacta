@@ -27,6 +27,16 @@ builder.Services.AddSwaggerGen(c =>
 // Add services to the container.
 builder.Services.AddScoped<IVeiculo, VeiculoRepositorio>();
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowLocalhost", builder =>
+    {
+        builder.WithOrigins("http://127.0.0.1:5500", "http://localhost:3000") // Live Server és outras origens
+               .AllowAnyMethod()
+               .AllowAnyHeader();
+    });
+});
+
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
@@ -52,6 +62,9 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+
+app.UseCors("AllowLocalhost");
+app.MapControllers();
 
 app.MapControllers();
 
