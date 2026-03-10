@@ -3,6 +3,6 @@
     public class ModeloBase
     {
         public int ID { get; set; }
-        public DateTime CriadoEm { get; set; }
+        public DateTime DataCriado { get; set; }
     }
 }
