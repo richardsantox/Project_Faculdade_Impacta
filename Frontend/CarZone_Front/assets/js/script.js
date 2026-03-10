@@ -31,9 +31,7 @@ document.addEventListener('DOMContentLoaded', function() {
     updateBackground();
 });
 
-// -----------------------------
-// Step 3: fetchVeiculos()
-// -----------------------------
+
 async function fetchVeiculos() {
     const API_URL = 'http://localhost:5062/api/Veiculos/todos';
     const grid = document.querySelector('.car-grid');
