@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="400" viewBox="0 0 600 400" role="img" aria-label="Placeholder image">
+  <rect width="100%" height="100%" fill="#1e1e1e" />
+  <g fill="#FFD700" opacity="0.9">
+    <rect x="40" y="260" width="520" height="80" rx="12" />
+    <path d="M120 260c20-40 60-80 140-80s120 40 140 80" fill="#111" opacity="0.12" />
+  </g>
+  <g fill="#ddd">
+    <path d="M90 260c10-30 40-60 100-60s110 30 150 60v20H90v-20z" fill="#2b2b2b" />
+  </g>
+  <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="#cccccc" font-family="Arial, Helvetica, sans-serif" font-size="20">Imagem não disponível</text>
+</svg>

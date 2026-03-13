@@ -1,7 +1,7 @@
 const backgroundImages = [
     'assets/images/porsche.jpg',
     'assets/images/bg2.jpg',
-    'assets/images/lamborghini.jpg'  // Inserir outras imgs
+    'assets/images/lamborghini.jpg'
 ];
 
 let currentImageIndex = 1;
@@ -51,7 +51,7 @@ async function fetchVeiculos() {
     return data;
 }
 
-// Example usage: call fetchVeiculos on load and log the result (rendering is Step 4)
+
 document.addEventListener('DOMContentLoaded', async function() {
     try {
         const veiculos = await fetchVeiculos();
@@ -64,9 +64,7 @@ document.addEventListener('DOMContentLoaded', async function() {
     }
 });
 
-// -----------------------------
-// Step 4: renderVeiculos()
-// -----------------------------
+
 function renderVeiculos(veiculos) {
     const grid = document.querySelector('.car-grid');
     if (!grid) return;
@@ -79,7 +77,7 @@ function renderVeiculos(veiculos) {
     }
 
     veiculos.forEach(v => {
-        const imgSrc = v.ImagemUrl || v.Imagem || 'assets/images/placeholder.svg';
+        const imgSrc = v.ImagemUrl ? "http://localhost:5062" + v.ImagemUrl :  "assets/images/placeholder.svg";
         const modelo = v.Modelo || v.modelo || v.Nome || 'Modelo desconhecido';
         const valorRaw = v.Valor != null ? v.Valor : v.valor || 0;
         const valor = Number(valorRaw).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
