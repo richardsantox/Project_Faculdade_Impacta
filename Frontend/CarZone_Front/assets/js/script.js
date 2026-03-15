@@ -77,7 +77,7 @@ function renderVeiculos(veiculos) {
     }
 
     veiculos.forEach(v => {
-        const imgSrc = v.ImagemUrl ? "http://localhost:5062" + v.ImagemUrl :  "assets/images/placeholder.svg";
+        const imgSrc = v.imagemUrl ? "http://localhost:5062" + v.imagemUrl :  "assets/images/placeholder.svg";        
         const modelo = v.Modelo || v.modelo || v.Nome || 'Modelo desconhecido';
         const valorRaw = v.Valor != null ? v.Valor : v.valor || 0;
         const valor = Number(valorRaw).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
