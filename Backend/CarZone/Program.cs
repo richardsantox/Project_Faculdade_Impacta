@@ -61,12 +61,11 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.UseAuthorization();
-
-app.UseCors("AllowLocalhost");
-app.MapControllers();
-
 app.UseStaticFiles();
+
+app.UseAuthorization();
+app.UseCors("AllowLocalhost");
+
 app.MapControllers();
 
 app.Run();
