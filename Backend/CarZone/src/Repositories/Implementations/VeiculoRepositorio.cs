@@ -14,9 +14,19 @@ namespace CarZone.src.Repositories.Implementations
             _contexto = contexto;
         }
 
-        public Task NovoVeiculoAsync(NovoVeiculoDTO veiculo)
+        public async Task NovoVeiculoAsync(NovoVeiculoDTO veiculoDto, string? fileName)
         {
-            throw new NotImplementedException();
+            await _contexto.AddAsync(new Veiculo
+            {
+                Modelo = veiculoDto.Modelo,
+                Marca = veiculoDto.Marca,
+                Ano = veiculoDto.Ano,
+                Valor = veiculoDto.Valor,
+                Tipo = veiculoDto.Tipo,
+                ImagemUrl = string.IsNullOrEmpty(fileName) ? null : $"/imagens/{fileName}"
+            });
+
+            await _contexto.SaveChangesAsync();
         }
         public async Task<List<Veiculo>> ListarTodosVeiculosAsync()
         {
