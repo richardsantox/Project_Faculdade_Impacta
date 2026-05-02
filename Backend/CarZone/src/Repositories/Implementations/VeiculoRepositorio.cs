@@ -45,7 +45,19 @@ namespace CarZone.src.Repositories.Implementations
 
             if (VeiculoEncontrado == null) throw new Exception("Veículo não encontrado");
 
+            if (!string.IsNullOrEmpty(VeiculoEncontrado.ImagemUrl))
+            {
+                var caminhoImagem = Path.Combine(
+                    Directory.GetCurrentDirectory(), "wwwroot", VeiculoEncontrado.ImagemUrl.TrimStart('/'));
+
+                if (File.Exists(caminhoImagem))
+                {
+                    File.Delete(caminhoImagem);
+                }
+            }
+
             _contexto.Veiculos.Remove(VeiculoEncontrado);
+
             await _contexto.SaveChangesAsync();
         }
     }
