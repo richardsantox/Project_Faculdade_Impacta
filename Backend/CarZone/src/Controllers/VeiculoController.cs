@@ -1,5 +1,6 @@
 ﻿using CarZone.src.DTOs;
 using CarZone.src.Repositories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CarZone.src.Controllers
@@ -48,6 +49,20 @@ namespace CarZone.src.Controllers
             await _repositorio.NovoVeiculoAsync(veiculo, fileName);
 
             return Created($"api/Veiculos", veiculo);
+        }
+
+        [HttpDelete("{idVeiculo}")]
+        public async Task<ActionResult> DeletarVeiculo([FromRoute] int idVeiculo)
+        {
+            try
+            {
+                await _repositorio.DeletarVeiculoAsync(idVeiculo);
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return NotFound(new { Mensagem = ex.Message });
+            }
         }
     }
 }
