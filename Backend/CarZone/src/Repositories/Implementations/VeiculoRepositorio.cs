@@ -23,6 +23,7 @@ namespace CarZone.src.Repositories.Implementations
                 Ano = veiculoDto.Ano,
                 Valor = veiculoDto.Valor,
                 Tipo = veiculoDto.Tipo,
+                DataCriado = DateTime.UtcNow,
                 ImagemUrl = string.IsNullOrEmpty(fileName) ? null : $"/imagens/{fileName}"
             });
 
@@ -38,9 +39,14 @@ namespace CarZone.src.Repositories.Implementations
             throw new NotImplementedException();
         }
 
-        public Task DeletarVeiculoAsync(int id)
+        public async Task DeletarVeiculoAsync(int id)
         {
-            throw new NotImplementedException();
+            var VeiculoEncontrado = _contexto.Veiculos.FirstOrDefault(v => v.ID == id);
+
+            if (VeiculoEncontrado == null) throw new Exception("Veículo não encontrado");
+
+            _contexto.Veiculos.Remove(VeiculoEncontrado);
+            await _contexto.SaveChangesAsync();
         }
     }
 }
