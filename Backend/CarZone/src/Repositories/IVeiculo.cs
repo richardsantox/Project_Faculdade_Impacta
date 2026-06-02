@@ -7,8 +7,7 @@ namespace CarZone.src.Repositories
     {
         Task NovoVeiculoAsync(NovoVeiculoDTO veiculo, string? fileName);
         Task<List<Veiculo>> ListarTodosVeiculosAsync();
-        Task AtualizarVeiculoAsync(AtualizarVeiculoDTO veiculo);
+        Task AtualizarVeiculoAsync(AtualizarVeiculoDTO veiculo, string? fileName);
         Task DeletarVeiculoAsync(int id);
-
     }
 }
