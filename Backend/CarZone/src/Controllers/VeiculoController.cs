@@ -51,6 +51,43 @@ namespace CarZone.src.Controllers
             return Created($"api/Veiculos", veiculo);
         }
 
+        [HttpPut("{idVeiculo}")]
+        public async Task<ActionResult> AtualizarVeiculoAsync(
+            [FromRoute] int idVeiculo,
+            [FromForm] AtualizarVeiculoDTO veiculo,
+            IFormFile? imagem)
+        {
+            try
+            {
+                if (idVeiculo != veiculo.ID)
+                    return BadRequest(new { Mensagem = "ID da rota não corresponde ao ID do veículo" });
+
+                string fileName = string.Empty;
+                if (imagem != null && imagem.Length > 0)
+                {
+                    var caminhoPasta = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "imagens");
+                    Directory.CreateDirectory(caminhoPasta);
+
+                    var nomeArquivo = $"{Guid.NewGuid().ToString()}_{imagem.FileName}";
+                    var caminhoArquivo = Path.Combine(caminhoPasta, nomeArquivo);
+                    fileName = nomeArquivo;
+
+                    using (var stream = new FileStream(caminhoArquivo, FileMode.Create))
+                    {
+                        await imagem.CopyToAsync(stream);
+                    }
+                }
+
+                await _repositorio.AtualizarVeiculoAsync(veiculo, string.IsNullOrEmpty(fileName) ? null : fileName);
+
+                return Ok(new { Mensagem = "Veículo atualizado com sucesso", veiculo });
+            }
+            catch (Exception ex)
+            {
+                return NotFound(new { Mensagem = ex.Message });
+            }
+        }
+
         [HttpDelete("{idVeiculo}")]
         public async Task<ActionResult> DeletarVeiculo([FromRoute] int idVeiculo)
         {

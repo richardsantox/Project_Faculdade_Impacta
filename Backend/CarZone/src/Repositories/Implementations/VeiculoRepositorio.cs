@@ -29,14 +29,43 @@ namespace CarZone.src.Repositories.Implementations
 
             await _contexto.SaveChangesAsync();
         }
+
         public async Task<List<Veiculo>> ListarTodosVeiculosAsync()
         {
             return await _contexto.Veiculos.ToListAsync();
-                
         }
-        public Task AtualizarVeiculoAsync(AtualizarVeiculoDTO veiculo)
+
+        public async Task AtualizarVeiculoAsync(AtualizarVeiculoDTO veiculoDto, string? fileName)
         {
-            throw new NotImplementedException();
+            var veiculoEncontrado = _contexto.Veiculos.FirstOrDefault(v => v.ID == veiculoDto.ID);
+
+            if (veiculoEncontrado == null)
+                throw new Exception("Veículo não encontrado");
+
+            if (!string.IsNullOrEmpty(fileName))
+            {
+                if (!string.IsNullOrEmpty(veiculoEncontrado.ImagemUrl))
+                {
+                    var caminhoImagemAntiga = Path.Combine(
+                        Directory.GetCurrentDirectory(), "wwwroot", veiculoEncontrado.ImagemUrl.TrimStart('/'));
+
+                    if (File.Exists(caminhoImagemAntiga))
+                    {
+                        File.Delete(caminhoImagemAntiga);
+                    }
+                }
+
+                veiculoEncontrado.ImagemUrl = $"/imagens/{fileName}";
+            }
+
+            veiculoEncontrado.Modelo = veiculoDto.Modelo;
+            veiculoEncontrado.Marca = veiculoDto.Marca;
+            veiculoEncontrado.Ano = veiculoDto.Ano;
+            veiculoEncontrado.Valor = veiculoDto.Valor;
+            veiculoEncontrado.Tipo = veiculoDto.Tipo;
+
+            _contexto.Veiculos.Update(veiculoEncontrado);
+            await _contexto.SaveChangesAsync();
         }
 
         public async Task DeletarVeiculoAsync(int id)
