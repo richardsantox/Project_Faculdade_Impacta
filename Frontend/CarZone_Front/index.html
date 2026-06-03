@@ -86,6 +86,46 @@
     <footer>
         
     </footer>
+
+    <div class="modal-overlay" id="editVehicleModal" aria-hidden="true">
+        <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="editVehicleTitle">
+            <div class="modal-header">
+                <h3 id="editVehicleTitle">Editar veículo</h3>
+                <button type="button" class="modal-close" id="closeEditModalBtn" aria-label="Fechar modal">×</button>
+            </div>
+            <form id="editVehicleForm" class="edit-form">
+                <input type="hidden" id="editVehicleId">
+                <label>
+                    Marca
+                    <input type="text" id="editMarca" required>
+                </label>
+                <label>
+                    Modelo
+                    <input type="text" id="editModelo" required>
+                </label>
+                <label>
+                    Ano
+                    <input type="number" id="editAno" min="1900" max="2100" required>
+                </label>
+                <label>
+                    Valor
+                    <input type="number" id="editValor" min="0" step="0.01" required>
+                </label>
+                <label>
+                    Tipo
+                    <input type="text" id="editTipo" required>
+                </label>
+                <label>
+                    Imagem do Veículo
+                    <input type="file" id="editImagem" accept="image/*">
+                </label>
+                <div class="modal-actions">
+                    <button type="button" class="btn-secondary" id="cancelEditBtn">Cancelar</button>
+                    <button type="submit" class="btn-submit">Salvar alterações</button>
+                </div>
+            </form>
+        </div>
+    </div>
     
     <script src="assets/js/script-comuns.js"></script>
     <script src="assets/js/script-index.js"></script>

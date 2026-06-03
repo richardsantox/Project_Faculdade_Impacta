@@ -18,7 +18,7 @@
         public int Ano { get; set; }
         public decimal Valor { get; set; }
         public string Tipo { get; set; }
-        public string ImagemUrl { get; set; }
+        public string? ImagemUrl { get; set; }
 
     }
 

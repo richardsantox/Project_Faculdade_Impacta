@@ -19,6 +19,11 @@ async function fetchVeiculos() {
     return data;
 }
 
+function formatCurrency(value) {
+    const numero = Number(value || 0);
+    return numero.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+}
+
 function renderVeiculos(veiculos) {
     const grid = document.querySelector('.car-grid');
     if (!grid) return;
@@ -31,10 +36,13 @@ function renderVeiculos(veiculos) {
     }
 
     veiculos.forEach(v => {
-        const imgSrc = v.imagemUrl ? "http://localhost:5062" + v.imagemUrl :  "assets/images/placeholder.svg";        
+        const imgSrc = v.imagemUrl ? "http://localhost:5062" + v.imagemUrl :  "assets/images/placeholder.svg";
+        const marca = v.Marca || v.marca || '';
         const modelo = v.Modelo || v.modelo || v.Nome || 'Modelo desconhecido';
+        const ano = v.Ano || v.ano || '';
         const valorRaw = v.Valor != null ? v.Valor : v.valor || 0;
-        const valor = Number(valorRaw).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+        const valor = formatCurrency(valorRaw);
+        const tipo = v.Tipo || v.tipo || '';
 
         const article = document.createElement('article');
         article.className = 'car-card';
@@ -72,9 +80,16 @@ function renderVeiculos(veiculos) {
         btnEdit.type = 'button';
         btnEdit.textContent = 'Editar';
         btnEdit.className = 'options-menu-button';
-        btnEdit.disabled = true;
-        btnEdit.title = 'Em breve';
-        btnEdit.onclick = () => editVeiculo(v.id || v.Id, modelo);
+        btnEdit.title = 'Editar veículo';
+        btnEdit.onclick = () => openEditVeiculoModal({
+            id: v.id || v.Id,
+            marca,
+            modelo,
+            ano,
+            valor: valorRaw,
+            tipo,
+            imagemUrl: v.imagemUrl || ''
+        });
 
         const btnDelete = document.createElement('button');
         btnDelete.type = 'button';
@@ -100,10 +115,106 @@ function closeAllOptionsMenus() {
     document.querySelectorAll('.options-menu').forEach(menu => menu.classList.add('hidden'));
 }
 
-function editVeiculo(veiculoId, modelo) {
-    alert(`Editar veículo ${modelo} ainda não está disponível.`);
+function openEditVeiculoModal(veiculo) {
+    const modal = document.getElementById('editVehicleModal');
+    if (!modal) return;
+
+    document.getElementById('editVehicleId').value = veiculo.id || '';
+    document.getElementById('editMarca').value = veiculo.marca || '';
+    document.getElementById('editModelo').value = veiculo.modelo || '';
+    document.getElementById('editAno').value = veiculo.ano || '';
+    document.getElementById('editValor').value = veiculo.valor || '';
+    document.getElementById('editTipo').value = veiculo.tipo || '';
+
+    modal.classList.add('open');
+    document.body.classList.add('modal-open');
 }
 
+function closeEditVeiculoModal() {
+    const modal = document.getElementById('editVehicleModal');
+    if (!modal) return;
+
+    modal.classList.remove('open');
+    document.body.classList.remove('modal-open');
+    
+    // Limpar o input de arquivo
+    const imagemInput = document.getElementById('editImagem');
+    if (imagemInput) {
+        imagemInput.value = '';
+    }
+}
+
+function updateCardAfterEdit(veiculoAtualizado) {
+    const article = document.querySelector(`.car-card[data-veiculo_id="${veiculoAtualizado.id || veiculoAtualizado.Id}"]`);
+    if (!article) return;
+
+    const h3 = article.querySelector('h3');
+    const p = article.querySelector('p');
+    if (h3) {
+        h3.textContent = veiculoAtualizado.Modelo || veiculoAtualizado.modelo || h3.textContent;
+    }
+    if (p) {
+        const valor = formatCurrency(veiculoAtualizado.Valor ?? veiculoAtualizado.valor ?? 0);
+        p.textContent = valor;
+    }
+}
+
+
+async function saveVeiculoEdicao(event) {
+    event.preventDefault();
+
+    const id = document.getElementById('editVehicleId').value;
+    const marca = document.getElementById('editMarca').value.trim();
+    const modelo = document.getElementById('editModelo').value.trim();
+    const ano = document.getElementById('editAno').value;
+    const valor = document.getElementById('editValor').value;
+    const tipo = document.getElementById('editTipo').value.trim();
+    const imagemInput = document.getElementById('editImagem');
+    const imagem = imagemInput.files[0];
+
+    if (!id || !marca || !modelo || !ano || !valor || !tipo) {
+        alert('Preencha todos os campos obrigatórios antes de salvar.');
+        return;
+    }
+
+    try {
+        const formData = new FormData();
+        formData.append('ID', id);
+        formData.append('Marca', marca);
+        formData.append('Modelo', modelo);
+        formData.append('Ano', ano);
+        formData.append('Valor', valor);
+        formData.append('Tipo', tipo);
+        formData.append('ImagemUrl', '');
+        
+        if (imagem && imagem.size > 0) {
+            formData.append('imagem', imagem);
+        }
+
+        console.log('Enviando FormData para edição:', { ID: id, Marca: marca, Modelo: modelo, Ano: ano, Valor: valor, Tipo: tipo, temImagem: !!imagem });
+        
+        const response = await fetch(`http://localhost:5062/api/Veiculos/${id}`, {
+            method: 'PUT',
+            body: formData
+        });
+
+        console.log('Response status:', response.status);
+
+        if (!response.ok) {
+            const errText = await response.text().catch(() => response.statusText);
+            console.error('Erro completo do servidor:', errText);
+            throw new Error(`Erro ao editar veículo: ${response.status} - ${errText}`);
+        }
+
+        const resultado = await response.json().catch(() => ({}));
+        updateCardAfterEdit({ id, Modelo: modelo, Valor: valor });
+        closeEditVeiculoModal();
+        alert('Veículo atualizado com sucesso!');
+    } catch (error) {
+        console.error('Erro ao editar veículo:', error);
+        alert(error.message || 'Não foi possível atualizar este veículo.');
+    }
+}
 
 async function deleteVeiculo(veiculoId, modelo, cardElement) {
 
@@ -132,4 +243,27 @@ async function deleteVeiculo(veiculoId, modelo, cardElement) {
     }
 }
 
-document.addEventListener('click', closeAllOptionsMenus);
+document.addEventListener('click', (event) => {
+    if (event.target.id === 'editVehicleModal') {
+        closeEditVeiculoModal();
+        return;
+    }
+
+    closeAllOptionsMenus();
+});
+
+const editVehicleForm = document.getElementById('editVehicleForm');
+if (editVehicleForm) {
+    editVehicleForm.addEventListener('submit', saveVeiculoEdicao);
+}
+
+const closeEditModalBtn = document.getElementById('closeEditModalBtn');
+if (closeEditModalBtn) {
+    closeEditModalBtn.addEventListener('click', closeEditVeiculoModal);
+}
+
+const cancelEditBtn = document.getElementById('cancelEditBtn');
+if (cancelEditBtn) {
+    cancelEditBtn.addEventListener('click', closeEditVeiculoModal);
+}
+
